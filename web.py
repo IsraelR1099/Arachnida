@@ -14,6 +14,7 @@ def main():
     i = 1
     while i < len(sys.argv):
         arg = sys.argv[i]
+        print(f"arg es {arg}")
         if "r" in arg:
             recursive = True
         elif "l" in arg and len(arg) <= 2:
