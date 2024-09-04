@@ -4,6 +4,13 @@ import requests
 import sys
 import os
 
+def isInvalid(arg):
+    valid_options = "rlp"
+    for char in arg:
+        if char not in valid_options:
+            print(f"Error: Invalid option '-{char}' found.")
+            sys.exit(1)
+
 def main():
     recursive = False
     depth = 5
@@ -15,6 +22,7 @@ def main():
         arg = sys.argv[i]
         if arg.startswith('-'):
             if any(char in arg for char in "rlp"):
+                isInvalid(arg[1:])
                 if "r" in arg:
                     recursive = True
                 if "l" in arg:
