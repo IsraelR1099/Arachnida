@@ -11,6 +11,31 @@ def isInvalid(arg):
             print(f"Error: Invalid option '-{char}' found.")
             sys.exit(1)
 
+
+def scrap(recursive, depth, path, url):
+    """
+        recursive: This parameter controls if the search should
+        include only direct children or if it should search through
+        all descendants.
+        depth: It tells the program to stop after it's found a certain number
+        of resulsts.
+        """
+    print(f"recursive: {recursive}")
+    print(f"dept: {depth}")
+    print(f"save_path: {path}")
+    print(f"url: {url}")
+    URL_BASE = 'https://scrapepark.org/courses/spanish'
+    extensions = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
+    response = requests.get(URL_BASE)
+    html_response = response.text
+
+    soup = BeautifulSoup(html_response, "html.parser")
+    images = soup.find_all(src=True, limit=depth, recursive=recursive)
+    for image in images:
+        if image['src'].endswith(extensions):
+            print(image)
+
+
 def main():
     recursive = False
     depth = 5
@@ -56,10 +81,7 @@ def main():
             url = arg
         i += 1
 
-    print(f"recursive: {recursive}")
-    print(f"dept: {depth}")
-    print(f"save_path: {save_path}")
-    print(f"url: {url}")
+    scrap(recursive, depth, save_path, url)
 
 
 if __name__ == '__main__':
