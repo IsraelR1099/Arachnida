@@ -25,7 +25,7 @@ def scorpion():
     for image_file in images:
         image = Image.open(image_file)
         exif_data = image._getexif()
-        print(f"Filename: {os.path.basename(image_file)}")
+        print(f"\033[1;32;40mFilename: {os.path.basename(image_file)}\033[0m")
         print(f"Image format: {image.format}")
         print(f"Mode: {image.mode}")
         print(f"Size: {image.size}")
@@ -48,13 +48,10 @@ def scorpion():
                             lon_minutes = convert_ifd_rational(gps_info[4][1])
                             lon_seconds = convert_ifd_rational(gps_info[4][2])
 
-                            print(f'{tag}:')
-                            print(lat_degrees)
-                            print(lat_minutes)
-                            print(lat_seconds)
-                            print(lon_degrees)
-                            print(lon_minutes)
-                            print(lon_seconds)
+                            geo_coords = '{0}º {1}\' {2:.2f}" {3}, {4}º {5}\' {6:.2f}" {7}'.format(
+                                int(lat_degrees), int(lat_minutes), (float(lat_seconds)), gps_info[1], int(lon_degrees), int(lon_minutes), float(lon_seconds), gps_info[3]
+                            )
+                            print(f"\t{tag}: {geo_coords}")
                         except KeyError:
                             print(f"   {tag}: Invalid GPS data")
                     else:
@@ -66,26 +63,6 @@ def scorpion():
                     print(f"  {tag}: {value}")
         else:
             print('No EXIF data found')
-    """
-    image_file = 'image.jpg'
-
-    image = Image.open(image_file)
-    print(f"Image format: {image.format}")
-
-    print(f'Filename: {os.path.basename(image_file)}')
-
-    exif_data = image._getexif()
-
-    if exif_data is not None:
-        exif = {}
-        for tag, value in exif_data.items():
-            if tag in TAGS:
-                exif[TAGS[tag]] = value
-
-        print(exif)
-    else:
-        print('No EXIF data found')
-    """
 
 
 if __name__ == '__main__':
