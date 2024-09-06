@@ -65,12 +65,27 @@ def print_exif_data(tag, value, readable_exif):
 
 
 def delete_exif(images):
-    print("We should delete metadata")
+    """
+    Function to clear metadata from a specified image
+    """
+    for image_file in images:
+        image = Image.open(image_file)
+        exif_data = image._getexif()
+        if exif_data is not None:
+            data = list(image.getdata())
+            # Create new image with same mode and same size but without
+            # metadata
+            image_no_metadata = Image.new(image.mode, image.size)
+            image_no_metadata.putdata(data)
+            # Save the new image over the original file.
+            image_no_metadata.save(image_file)
+            print(f"Metada succesfully cleared from '{image_file}'")
+        else:
+            print(f"No metadata found in '{image_file}'")
 
 
 def scorpion():
     images, delete = parse_arguments()
-    print(f"delete es: {delete}")
     if len(images) == 0:
         print("No image provided.")
         sys.exit(0)
