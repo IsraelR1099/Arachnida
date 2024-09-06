@@ -21,10 +21,6 @@ def scrap(recursive, depth, path, url):
         depth: It tells the program to stop after it's found a certain number
         of resulsts.
         """
-    print(f"recursive: {recursive}")
-    print(f"dept: {depth}")
-    print(f"save_path: {path}")
-    print(f"url: {url}")
     # URL_BASE = 'https://scrapepark.org/courses/spanish'
     if path == './data/' and not os.path.exists(path):
         print(f"Creating {path} directory")
